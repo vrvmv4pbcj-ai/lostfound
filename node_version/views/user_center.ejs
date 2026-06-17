@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>个人中心 - 校园失物招领</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<div class="header"><div class="nav"><div class="logo"><a href="/">校园失物招领</a></div><div class="nav-links"><a href="/">首页</a><a href="/publish">发布信息</a><a href="/user-center">个人中心</a><span style="color:rgba(255,255,255,0.7);font-size:13px;">欢迎，<%= user.username %></span><a href="/logout" class="btn-logout">退出</a></div></div></div>
+<div class="container">
+<% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+<% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+<h2 style="color:#667eea;margin-bottom:16px;">我的发布</h2>
+<div class="card">
+<% if (list.length === 0) { %><p style="text-align:center;color:#999;padding:40px 0;">您还没有发布任何信息</p><% } %>
+<% list.forEach(function(post) { %>
+<div class="post-item">
+<div class="post-info">
+<a href="/detail/<%= post.id %>" class="post-title"><span class="post-type <%= post.type==='lost'?'type-lost':'type-found' %>"><%= post.type==='lost'?'失物':'寻物' %></span> <%= post.title %></a>
+<div class="post-meta">发布时间：<%= post.createTime %></div>
+</div>
+<div style="display:flex;gap:8px;"><a href="/edit/<%= post.id %>" class="btn btn-primary">编辑</a><a href="/delete/<%= post.id %>" class="btn btn-danger" onclick="return confirm('确认删除？')">删除</a></div>
+</div>
+<% }) %>
+</div>
+<% if (totalPages > 1) { %>
+<div class="pagination">
+<% if (page > 1) { %><a href="/user-center?page=<%= page-1 %>">上一页</a><% } %>
+<% for (var p = 1; p <= totalPages; p++) { %><% if (p === page) { %><span class="current"><%= p %></span><% } else { %><a href="/user-center?page=<%= p %>"><%= p %></a><% } %><% } %>
+<% if (page < totalPages) { %><a href="/user-center?page=<%= page+1 %>">下一页</a><% } %>
+</div><% } %>
+</div>
+<div class="footer">&copy; 2026 校园失物招领系统</div>
+</body></html>

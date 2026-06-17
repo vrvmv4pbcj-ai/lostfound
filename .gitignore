@@ -1,0 +1,10 @@
+﻿node_modules/
+target/
+.idea/
+*.log
+data.json
+node_version/public/upload/*
+!node_version/public/upload/.gitkeep
+test_server.js
+test_render.js
+test_full.js
