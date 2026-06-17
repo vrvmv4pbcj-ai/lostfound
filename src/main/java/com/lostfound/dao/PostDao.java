@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 信息数据访问层
- */
+ * 娣団剝浼呴弫鐗堝祦鐠佸潡妫剁仦? */
 @Repository
 public class PostDao {
 
@@ -50,17 +49,17 @@ public class PostDao {
     }
 
     public Post findById(Integer id) {
-        String sql = "SELECT p.*, u.username FROM post p LEFT JOIN user u ON p.user_id = u.id WHERE p.id = ? AND p.status = 0";
+        String sql = "SELECT p.*, u.username FROM post p LEFT JOIN `user` u ON p.user_id = u.id WHERE p.id = ? AND p.status = 0";
         List<Post> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), id);
         return list.isEmpty() ? null : list.get(0);
     }
 
     /**
-     * 分页查询
+     * 閸掑棝銆夐弻銉嚄
      */
     public List<Post> findByPage(int offset, int limit, String type, String keyword) {
         StringBuilder sql = new StringBuilder(
-            "SELECT p.*, u.username FROM post p LEFT JOIN user u ON p.user_id = u.id WHERE p.status = 0");
+            "SELECT p.*, u.username FROM post p LEFT JOIN `user` u ON p.user_id = u.id WHERE p.status = 0");
         List<Object> params = new ArrayList<>();
 
         if (type != null && !type.isEmpty()) {
@@ -81,7 +80,7 @@ public class PostDao {
     }
 
     /**
-     * 统计总数
+     * 缂佺喕顓搁幀缁樻殶
      */
     public int count(String type, String keyword) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM post WHERE status = 0");
@@ -101,16 +100,15 @@ public class PostDao {
     }
 
     /**
-     * 根据用户ID分页查询
+     * 閺嶈宓侀悽銊﹀煕ID閸掑棝銆夐弻銉嚄
      */
     public List<Post> findByUserId(Integer userId, int offset, int limit) {
-        String sql = "SELECT p.*, u.username FROM post p LEFT JOIN user u ON p.user_id = u.id WHERE p.user_id = ? AND p.status = 0 ORDER BY p.create_time DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT p.*, u.username FROM post p LEFT JOIN `user` u ON p.user_id = u.id WHERE p.user_id = ? AND p.status = 0 ORDER BY p.create_time DESC LIMIT ? OFFSET ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), userId, limit, offset);
     }
 
     /**
-     * 统计用户的帖子数
-     */
+     * 缂佺喕顓搁悽銊﹀煕閻ㄥ嫬绗樼€涙劖鏆?     */
     public int countByUserId(Integer userId) {
         String sql = "SELECT COUNT(*) FROM post WHERE user_id = ? AND status = 0";
         return jdbcTemplate.queryForObject(sql, Integer.class, userId);

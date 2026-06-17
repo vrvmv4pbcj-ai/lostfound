@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * 用户数据访问层
- */
+ * 閻劍鍩涢弫鐗堝祦鐠佸潡妫剁仦? */
 @Repository
 public class UserDao {
 
@@ -18,29 +17,29 @@ public class UserDao {
     private JdbcTemplate jdbcTemplate;
 
     public User findByUsername(String username) {
-        String sql = "SELECT * FROM user WHERE username = ?";
+        String sql = "SELECT * FROM `user` WHERE username = ?";
         List<User> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), username);
         return list.isEmpty() ? null : list.get(0);
     }
 
     public User findById(Integer id) {
-        String sql = "SELECT * FROM user WHERE id = ?";
+        String sql = "SELECT * FROM `user` WHERE id = ?";
         List<User> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), id);
         return list.isEmpty() ? null : list.get(0);
     }
 
     public int save(User user) {
-        String sql = "INSERT INTO user (username, password) VALUES (?, ?)";
+        String sql = "INSERT INTO `user` (username, password) VALUES (?, ?)";
         return jdbcTemplate.update(sql, user.getUsername(), user.getPassword());
     }
 
     public List<User> findAll() {
-        String sql = "SELECT * FROM user ORDER BY created_time DESC";
+        String sql = "SELECT * FROM `user` ORDER BY created_time DESC";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 
     public int deleteById(Integer id) {
-        String sql = "DELETE FROM user WHERE id = ?";
+        String sql = "DELETE FROM `user` WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
 }

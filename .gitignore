@@ -8,3 +8,4 @@ node_version/public/upload/*
 test_server.js
 test_render.js
 test_full.js
+data/

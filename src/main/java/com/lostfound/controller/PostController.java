@@ -1,4 +1,4 @@
-﻿package com.lostfound.controller;
+package com.lostfound.controller;
 
 import com.lostfound.model.Post;
 import com.lostfound.model.User;
