@@ -1,4 +1,4 @@
-const http = require('http');
+ï»¿const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -8,7 +8,7 @@ const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
 const UPLOAD_DIR = path.join(__dirname, 'public', 'upload');
 
-// ====== ¼òÒ×Êı¾İ¿â ======
+// ====== ç®€æ˜“æ•°æ®åº“ ======
 function loadData() {
   try { return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); } catch(e) { return { users:[], posts:[], nextUserId:1, nextPostId:1 }; }
 }
@@ -20,9 +20,9 @@ function initData() {
     data.users.push({ id:1, username:'test', password:md5('123456'), role:'admin', createdTime:now() });
     data.users.push({ id:2, username:'zhangsan', password:md5('123456'), role:'user', createdTime:now() });
     data.nextUserId = 3;
-    data.posts.push({ id:1, title:'Ğ£Ô°¿¨¶ªÊ§', content:'±¾ÈËÓÚ½ñÌìÏÂÎçÔÚÍ¼Êé¹İ¶şÂ¥¶ªÊ§Ò»ÕÅĞ£Ô°¿¨£¬¿¨ºÅÎª20240001£¬ÈçÓĞ¼ñµ½ÇëÁªÏµÎÒ£¬·Ç³£¸ĞĞ»£¡', type:'lost', imagePath:'', contact:'QQ: 12345678', userId:1, status:0, createTime:now() });
-    data.posts.push({ id:2, title:'¼ñµ½Ô¿³×Ò»´®', content:'ÔÚ²Ù³¡ÅÜµÀÅÔ¼ñµ½Ò»´®Ô¿³×£¬ÉÏÃæÓĞÀ¶É«Ğ¡ĞÜ¹Ò¼ş£¬ÇëÊ§Ö÷ÁªÏµÎÒÈÏÁì¡£', type:'found', imagePath:'', contact:'µç»°: 13800138000', userId:2, status:0, createTime:now() });
-    data.posts.push({ id:3, title:'»ªÎªÊÖ»ú¶ªÊ§', content:'ÖÜÒ»ÉÏÎçÔÚ½ÌÑ§Â¥A×ù302½ÌÊÒ¶ªÊ§Ò»²¿»ªÎªÊÖ»ú£¬ºÚÉ«Íâ¿Ç£¬ÄÚº¬ÖØÒª×ÊÁÏ£¬¿ÒÇë¼ñµ½ÕßÁªÏµ¡£', type:'lost', imagePath:'', contact:'Î¢ĞÅ: lost_phone_2024', userId:1, status:0, createTime:now() });
+    data.posts.push({ id:1, title:'æ ¡å›­å¡ä¸¢å¤±', content:'æœ¬äººäºä»Šå¤©ä¸‹åˆåœ¨å›¾ä¹¦é¦†äºŒæ¥¼ä¸¢å¤±ä¸€å¼ æ ¡å›­å¡ï¼Œå¡å·ä¸º20240001ï¼Œå¦‚æœ‰æ¡åˆ°è¯·è”ç³»æˆ‘ï¼Œéå¸¸æ„Ÿè°¢ï¼', type:'lost', imagePath:'', contact:'QQ: 12345678', userId:1, status:0, createTime:now() });
+    data.posts.push({ id:2, title:'æ¡åˆ°é’¥åŒ™ä¸€ä¸²', content:'åœ¨æ“åœºè·‘é“æ—æ¡åˆ°ä¸€ä¸²é’¥åŒ™ï¼Œä¸Šé¢æœ‰è“è‰²å°ç†ŠæŒ‚ä»¶ï¼Œè¯·å¤±ä¸»è”ç³»æˆ‘è®¤é¢†ã€‚', type:'found', imagePath:'', contact:'ç”µè¯: 13800138000', userId:2, status:0, createTime:now() });
+    data.posts.push({ id:3, title:'åä¸ºæ‰‹æœºä¸¢å¤±', content:'å‘¨ä¸€ä¸Šåˆåœ¨æ•™å­¦æ¥¼Aåº§302æ•™å®¤ä¸¢å¤±ä¸€éƒ¨åä¸ºæ‰‹æœºï¼Œé»‘è‰²å¤–å£³ï¼Œå†…å«é‡è¦èµ„æ–™ï¼Œæ³è¯·æ¡åˆ°è€…è”ç³»ã€‚', type:'lost', imagePath:'', contact:'å¾®ä¿¡: lost_phone_2024', userId:1, status:0, createTime:now() });
     data.nextPostId = 4;
     saveData(data);
   }
@@ -32,7 +32,7 @@ function initData() {
 function md5(s) { return crypto.createHash('md5').update(s).digest('hex'); }
 function now() { return new Date().toISOString().replace('T',' ').substring(0,19); }
 
-// ====== Session¹ÜÀí ======
+// ====== Sessionç®¡ç† ======
 const sessions = {};
 
 function parseCookies(cookieHeader) {
@@ -53,7 +53,7 @@ function setSession(res, data) {
   return sid;
 }
 
-// ====== Ä£°åäÖÈ¾ ======
+// ====== æ¨¡æ¿æ¸²æŸ“ ======
 function render(res, templateName, data) {
   const source = fs.readFileSync(path.join(__dirname, 'views', templateName + '.ejs'), 'utf8');
   // Compile EJS-lite template to a JavaScript function body
@@ -80,7 +80,7 @@ function render(res, templateName, data) {
   res.end(html);
 }
 
-// ====== MIMEÀàĞÍ ======
+// ====== MIMEç±»å‹ ======
 const MIME = {
   '.html':'text/html','.css':'text/css','.js':'application/javascript',
   '.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.ico':'image/x-icon'
@@ -97,7 +97,7 @@ function serveStatic(req, res) {
   return false;
 }
 
-// ====== ½âÎö multipart ======
+// ====== è§£æ multipart ======
 function parseMultipart(req, callback) {
   const chunks = [];
   req.on('data', c => chunks.push(c));
@@ -134,25 +134,25 @@ function parseMultipart(req, callback) {
   });
 }
 
-// ====== Â·ÓÉ´¦Àí ======
+// ====== è·¯ç”±å¤„ç† ======
 function handleRequest(req, res) {
   const url = new URL(req.url, 'http://localhost');
   const pathname = url.pathname;
 
-  // ¾²Ì¬ÎÄ¼ş
+  // é™æ€æ–‡ä»¶
   if (serveStatic(req, res)) return;
 
   const session = getSession(req);
   const publicPaths = ['/login','/register','/css','/js','/upload'];
   const isPublic = publicPaths.some(p => pathname.startsWith(p)) || pathname === '/';
 
-  // µÇÂ¼À¹½Ø
+  // ç™»å½•æ‹¦æˆª
   if (!isPublic && !session) {
     res.writeHead(302, { Location: '/login' });
     return res.end();
   }
 
-  // ====== Â·ÓÉ ======
+  // ====== è·¯ç”± ======
   if (pathname === '/login' && req.method === 'GET') {
     return render(res, 'login', { error:'', success:'', user:session||{} });
 
@@ -168,7 +168,7 @@ function handleRequest(req, res) {
         res.writeHead(302, { Location: '/' });
         res.end();
       } else {
-        render(res, 'login', { error:'ÓÃ»§Ãû»òÃÜÂë´íÎó', success:'', user:{} });
+        render(res, 'login', { error:'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯', success:'', user:{} });
       }
     });
     return;
@@ -181,14 +181,14 @@ function handleRequest(req, res) {
     req.on('data', c => body += c);
     req.on('end', () => {
       const { username, password, confirmPassword } = querystring.parse(body);
-      if (!username || !password) return render(res, 'register', { error:'ÓÃ»§ÃûºÍÃÜÂë²»ÄÜÎª¿Õ', user:{} });
-      if (password.length < 4) return render(res, 'register', { error:'ÃÜÂë³¤¶È²»ÄÜÉÙÓÚ4Î»', user:{} });
-      if (password !== confirmPassword) return render(res, 'register', { error:'Á½´ÎÃÜÂëÊäÈë²»Ò»ÖÂ', user:{} });
+      if (!username || !password) return render(res, 'register', { error:'ç”¨æˆ·åå’Œå¯†ç ä¸èƒ½ä¸ºç©º', user:{} });
+      if (password.length < 4) return render(res, 'register', { error:'å¯†ç é•¿åº¦ä¸èƒ½å°‘äº4ä½', user:{} });
+      if (password !== confirmPassword) return render(res, 'register', { error:'ä¸¤æ¬¡å¯†ç è¾“å…¥ä¸ä¸€è‡´', user:{} });
       const data = loadData();
-      if (data.users.find(u => u.username === username)) return render(res, 'register', { error:'ÓÃ»§ÃûÒÑ´æÔÚ', user:{} });
+      if (data.users.find(u => u.username === username)) return render(res, 'register', { error:'ç”¨æˆ·åå·²å­˜åœ¨', user:{} });
       data.users.push({ id: data.nextUserId++, username, password: md5(password), role:'user', createdTime: now() });
       saveData(data);
-      render(res, 'login', { error:'', success:'×¢²á³É¹¦£¬ÇëµÇÂ¼', user:{} });
+      render(res, 'login', { error:'', success:'æ³¨å†ŒæˆåŠŸï¼Œè¯·ç™»å½•', user:{} });
     });
     return;
 
@@ -212,7 +212,7 @@ function handleRequest(req, res) {
     const totalPages = Math.ceil(total / pageSize);
     const list = posts.slice((page-1)*pageSize, page*pageSize).map(p => {
       const u = data.users.find(u => u.id === p.userId);
-      return { ...p, username: u ? u.username : 'Î´Öª' };
+      return { ...p, username: u ? u.username : 'æœªçŸ¥' };
     });
 
     render(res, 'index', { list, page, pageSize, total, totalPages, type, keyword, success:'', user:session||{} });
@@ -245,7 +245,7 @@ function handleRequest(req, res) {
     const data = loadData();
     const post = data.posts.find(p => p.id === id && p.status === 0);
     if (!post) { res.writeHead(302, { Location: '/' }); return res.end(); }
-    const username = (data.users.find(u => u.id === post.userId) || {}).username || 'Î´Öª';
+    const username = (data.users.find(u => u.id === post.userId) || {}).username || 'æœªçŸ¥';
     render(res, 'detail', { post: { ...post, username }, user:session||{} });
 
   } else if (pathname.startsWith('/edit/') && req.method === 'GET') {
@@ -296,7 +296,7 @@ function handleRequest(req, res) {
     const totalPages = Math.ceil(total / pageSize);
     const list = posts.slice((page-1)*pageSize, page*pageSize).map(p => {
       const u = data.users.find(u => u.id === p.userId);
-      return { ...p, username: u ? u.username : 'Î´Öª' };
+      return { ...p, username: u ? u.username : 'æœªçŸ¥' };
     });
     render(res, 'user_center', { list, page, pageSize, total, totalPages, success:'', error:'', user:session||{} });
   } else if (pathname === '/panel' && session && session.role === 'admin') {
@@ -308,7 +308,7 @@ function handleRequest(req, res) {
     const totalPages = Math.ceil(total / pageSize);
     const list = posts.slice((page-1)*pageSize, page*pageSize).map(p => {
       const u = data.users.find(u => u.id === p.userId);
-      return { ...p, username: u ? u.username : 'Î´Öª' };
+      return { ...p, username: u ? u.username : 'æœªçŸ¥' };
     });
     render(res, 'panel', { list, page, pageSize, total, totalPages, user:session||{} });
 
@@ -328,12 +328,12 @@ function handleRequest(req, res) {
   }
 }
 
-// ====== Æô¶¯·şÎñÆ÷ ======
+// ====== å¯åŠ¨æœåŠ¡å™¨ ======
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 initData();
 
 const server = http.createServer(handleRequest);
 server.listen(PORT, () => {
-  console.log(`Ğ£Ô°Ê§ÎïÕĞÁìÏµÍ³ÒÑÆô¶¯: http://localhost:${PORT}`);
-  console.log('²âÊÔÕËºÅ: test / 123456');
+  console.log(`æ ¡å›­å¤±ç‰©æ‹›é¢†ç³»ç»Ÿå·²å¯åŠ¨: http://localhost:${PORT}`);
+  console.log('æµ‹è¯•è´¦å·: test / 123456');
 });
