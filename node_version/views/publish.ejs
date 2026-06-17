@@ -10,6 +10,7 @@
   <div class="logo"><a href="/">校园失物招领</a></div>
   <div class="nav-links">
     <a href="/">首页</a><a href="/user-center">个人中心</a>
+    <% if (user.role === 'admin') { %><a href="/panel" class="admin-badge">⚙ 管理</a><% } %>
     <span style="color:rgba(255,255,255,0.7);font-size:13px;">欢迎，<%= user.username %></span>
     <a href="/logout" class="btn-logout">退出</a>
   </div>

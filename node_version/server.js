@@ -17,8 +17,8 @@ function saveData(data) { fs.writeFileSync(DATA_FILE, JSON.stringify(data, null,
 function initData() {
   let data = loadData();
   if (data.users.length === 0) {
-    data.users.push({ id:1, username:'test', password:md5('123456'), createdTime:now() });
-    data.users.push({ id:2, username:'zhangsan', password:md5('123456'), createdTime:now() });
+    data.users.push({ id:1, username:'test', password:md5('123456'), role:'admin', createdTime:now() });
+    data.users.push({ id:2, username:'zhangsan', password:md5('123456'), role:'user', createdTime:now() });
     data.nextUserId = 3;
     data.posts.push({ id:1, title:'校园卡丢失', content:'本人于今天下午在图书馆二楼丢失一张校园卡，卡号为20240001，如有捡到请联系我，非常感谢！', type:'lost', imagePath:'', contact:'QQ: 12345678', userId:1, status:0, createTime:now() });
     data.posts.push({ id:2, title:'捡到钥匙一串', content:'在操场跑道旁捡到一串钥匙，上面有蓝色小熊挂件，请失主联系我认领。', type:'found', imagePath:'', contact:'电话: 13800138000', userId:2, status:0, createTime:now() });
@@ -164,7 +164,7 @@ function handleRequest(req, res) {
       const data = loadData();
       const user = data.users.find(u => u.username === username && u.password === md5(password));
       if (user) {
-        setSession(res, { id: user.id, username: user.username });
+        setSession(res, { id: user.id, username: user.username, role: user.role });
         res.writeHead(302, { Location: '/' });
         res.end();
       } else {
@@ -186,7 +186,7 @@ function handleRequest(req, res) {
       if (password !== confirmPassword) return render(res, 'register', { error:'两次密码输入不一致', user:{} });
       const data = loadData();
       if (data.users.find(u => u.username === username)) return render(res, 'register', { error:'用户名已存在', user:{} });
-      data.users.push({ id: data.nextUserId++, username, password: md5(password), createdTime: now() });
+      data.users.push({ id: data.nextUserId++, username, password: md5(password), role:'user', createdTime: now() });
       saveData(data);
       render(res, 'login', { error:'', success:'注册成功，请登录', user:{} });
     });
@@ -299,6 +299,28 @@ function handleRequest(req, res) {
       return { ...p, username: u ? u.username : '未知' };
     });
     render(res, 'user_center', { list, page, pageSize, total, totalPages, success:'', error:'', user:session||{} });
+  } else if (pathname === '/panel' && session && session.role === 'admin') {
+    const data = loadData();
+    const page = Math.max(1, parseInt(url.searchParams.get('page')) || 1);
+    const pageSize = 10;
+    let posts = [...data.posts].sort((a,b) => b.id - a.id);
+    const total = posts.length;
+    const totalPages = Math.ceil(total / pageSize);
+    const list = posts.slice((page-1)*pageSize, page*pageSize).map(p => {
+      const u = data.users.find(u => u.id === p.userId);
+      return { ...p, username: u ? u.username : '未知' };
+    });
+    render(res, 'panel', { list, page, pageSize, total, totalPages, user:session||{} });
+
+  } else if (pathname.startsWith('/panel/delete/') && session && session.role === 'admin') {
+    const id = parseInt(pathname.split('/')[3]);
+    const data = loadData();
+    const post = data.posts.find(p => p.id === id);
+    if (post) post.status = 1;
+    saveData(data);
+    res.writeHead(302, { Location: '/panel' });
+    res.end();
+
 
   } else {
     res.writeHead(404);

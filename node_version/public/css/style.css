@@ -494,3 +494,39 @@ body {
     .publish-form { padding: 20px 16px; }
     .type-selector { grid-template-columns: 1fr; }
 }
+/* 管理员样式 */
+.admin-header {
+    margin-bottom: 16px;
+}
+.admin-header h2 {
+    font-size: 22px;
+    color: #333;
+}
+.admin-header p {
+    font-size: 13px;
+    color: #999;
+    margin-top: 4px;
+}
+.admin-badge {
+    background: #f39c12 !important;
+    color: #fff !important;
+    padding: 4px 10px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    font-weight: 600;
+}
+.deleted-tag {
+    display: inline-block;
+    background: #e0e0e0;
+    color: #888;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+.admin-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
