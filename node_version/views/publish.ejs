@@ -14,19 +14,86 @@
     <a href="/logout" class="btn-logout">退出</a>
   </div>
 </div></div>
-<div class="container">
-  <div class="card">
-    <h2 style="color:#667eea;margin-bottom:20px;">发布信息</h2>
-    <form action="/publish" method="post" enctype="multipart/form-data">
-      <div class="form-group"><label>信息类型</label><select name="type" required><option value="">请选择类型</option><option value="lost">失物招领</option><option value="found">寻物启事</option></select></div>
-      <div class="form-group"><label>标题</label><input type="text" name="title" placeholder="请输入标题" required></div>
-      <div class="form-group"><label>详细描述</label><textarea name="content" placeholder="请详细描述物品特征、丢失/捡到地点等信息" required></textarea></div>
-      <div class="form-group"><label>联系方式</label><input type="text" name="contact" placeholder="QQ/微信/电话等" required></div>
-      <div class="form-group"><label>上传图片（可选）</label><input type="file" name="image" accept="image/*"></div>
-      <div class="form-group"><button type="submit" class="btn-submit">发 布</button></div>
-    </form>
+
+<div class="publish-wrapper">
+  <div class="publish-hero">
+    <div class="publish-icon">📋</div>
+    <h2>发布信息</h2>
+    <p>请填写以下信息，帮助失物早日回家</p>
   </div>
+
+  <form class="publish-form" action="/publish" method="post" enctype="multipart/form-data">
+    <!-- 类型选择 -->
+    <div class="publish-section">
+      <label class="publish-label">信息类型</label>
+      <div class="type-selector">
+        <label class="type-card">
+          <input type="radio" name="type" value="lost" required>
+          <span class="type-card-icon">🔴</span>
+          <span class="type-card-title">失物招领</span>
+          <span class="type-card-desc">我捡到了别人的东西</span>
+        </label>
+        <label class="type-card">
+          <input type="radio" name="type" value="found" required>
+          <span class="type-card-icon">🟢</span>
+          <span class="type-card-title">寻物启事</span>
+          <span class="type-card-desc">我丢失了自己的东西</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 标题 -->
+    <div class="publish-section">
+      <label class="publish-label" for="title">📝 标题</label>
+      <input type="text" id="title" name="title" class="publish-input" placeholder="例如：黑色钱包、蓝色雨伞…" required>
+    </div>
+
+    <!-- 详细描述 -->
+    <div class="publish-section">
+      <label class="publish-label" for="content">📄 详细描述</label>
+      <textarea id="content" name="content" class="publish-textarea" placeholder="请尽量详细描述：物品特征、丢失/捡到的具体时间和地点……" required></textarea>
+    </div>
+
+    <!-- 联系方式 -->
+    <div class="publish-section">
+      <label class="publish-label" for="contact">📞 联系方式</label>
+      <input type="text" id="contact" name="contact" class="publish-input" placeholder="QQ / 微信 / 手机号" required>
+    </div>
+
+    <!-- 图片上传 -->
+    <div class="publish-section">
+      <label class="publish-label">📷 上传图片 <span class="label-optional">（可选）</span></label>
+      <div class="upload-zone">
+        <input type="file" name="image" id="imageInput" accept="image/*" hidden>
+        <label for="imageInput" class="upload-label">
+          <span class="upload-icon">+</span>
+          <span>点击上传物品照片</span>
+          <span class="upload-hint">支持 JPG / PNG</span>
+        </label>
+        <img id="imagePreview" class="upload-preview" alt="">
+      </div>
+    </div>
+
+    <!-- 提交 -->
+    <button type="submit" class="publish-submit">✨ 发布信息</button>
+  </form>
 </div>
+
 <div class="footer">&copy; 2026 校园失物招领系统</div>
+
+<script>
+document.getElementById('imageInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (file) {
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = document.getElementById('imagePreview');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+});
+</script>
 </body>
 </html>
